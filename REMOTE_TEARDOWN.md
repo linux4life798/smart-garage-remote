@@ -4,7 +4,8 @@
 ![](images/Chamberlain%20953EV-P2%20PCB%20Annotation.svg)
 
 
-* The MCU, with the built-in radio, is the Silicon Labs [Si4010-C2].
+* The MCU is the Silicon Labs [Si4010-C2]. This is a simple 8051 MCU with a
+  built-in sub-GHz radio, supporting FSK and OOK.
 * Here is the Si4010-C2's [Datasheet].
 * The MCU's datasheet specifies that it can handle between 1.8V to 3.6V, so 3.3V
   from our MCU should be fine.
