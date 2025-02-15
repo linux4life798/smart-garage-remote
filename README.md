@@ -20,6 +20,9 @@ Checkout the [953EV-P2 manual] for more details about which openers are
 supported. There is a nice table that shows compatibility/protocol based on the
 color of your garage door opener's learn button.
 
+Checkout [REMOTE_TEARDOWN.md](REMOTE_TEARDOWN.md) for more detail about how we
+will integrate with this remote.
+
 [Chamberlain 953EV-P2]: https://www.chamberlain.com/3-button-visor-garage-door-remote/p/G953EV-P2MC
 [953EV-P2 manual]: https://cgi.widen.net/content/uc9vrtoywt/original/114A5043.pdf?u=mcyivk&download=true
 
