@@ -33,3 +33,15 @@ so we will make this work. I chose the ESP32-C6 due to it having support for
 not only WiFi and BT, but also 802.15.4, with stacks ready zigbee, thread, and
 matter. So, if we don't like ESPHome, we could integrate in a zillion different
 ways.
+
+**Components:**
+* [SparkFun ESP32-C6 Pocket Dev Board](https://www.sparkfun.com/sparkfun-qwiic-pocket-development-board-esp32-c6.html)
+  - https://cdn.sparkfun.com/assets/d/4/0/a/9/Qwiic_Pocket_Dev_ESP32_C6.pdf
+  - https://cdn.sparkfun.com/assets/f/8/4/8/b/ESP32-C6-MINI-1-Datasheet.pdf
+  - I'm not using GPIO16 and GPIO17, since these support UART TX/RX.
+* [Plastic Standoffs](https://a.co/d/6FvDC4v)
+* [Thin 30AWG Stranded Wire](https://a.co/d/5y5EgwZ)
+
+   *In this case, you want something thin and flexible to ensure that bending
+   the wire can't impart too much torque on the PCB pads being soldered to.
+   Otherwise, you can end up accidentally ripping traces/pads off the PCB.*
