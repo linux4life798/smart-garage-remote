@@ -47,15 +47,17 @@ ways.
    Otherwise, you can end up accidentally ripping traces/pads off the PCB.*
 
 **Connections:**
-ESP32 GPIO | Signal                 | Polarity      | Notes
----------- | ---------------------- | ------------- | -----
-IO2        | SW1 / Button I / C2DAT | active-low    |
-IO3        | SW2 *(unpopulated)*    | active-low    | Functions as extra garage door control.
-IO4        | SW4 / Button II        | active-low    |
-IO5        | SW3 / Button III       | active-low    |
-IO18       | SW5 / Program Button   | active-low    |
-IO19       | D1 / LED / C2CLK       | active-low    |
-IO23       | ESP32 Onboard LED      | active-high   |
+ESP32 Pin  |  Remote Test Point | Description            | Polarity      | Notes
+---------- | -----------------  | ---------------------- | ------------- | -----
+V3         | Battery+           | 3.3V                   |               |
+GND        | TP13               |                        |               |
+IO2        | TP4                | SW1 / Button I / C2DAT | active-low    |
+IO3        | TP6                | SW2 *(unpopulated)*    | active-low    | Functions as extra garage door control.
+IO4        | TP10               | SW4 / Button II        | active-low    |
+IO5        | TP8                | SW3 / Button III       | active-low    |
+IO18       | TP14               | SW5 / Program Button   | active-low    |
+IO19       | TP11               | D1 / LED / C2CLK       | active-low    |
+IO23       | N/A                | ESP32 Onboard LED      | active-high   |
 
 *All active-low IO above should be driven in an open-drain/active-low manner.
 The RF-MCU enables internal pull-ups on all IO, including the LED.*
