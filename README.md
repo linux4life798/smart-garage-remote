@@ -45,3 +45,18 @@ ways.
    *In this case, you want something thin and flexible to ensure that bending
    the wire can't impart too much torque on the PCB pads being soldered to.
    Otherwise, you can end up accidentally ripping traces/pads off the PCB.*
+
+**Connections:**
+ESP32 GPIO | Signal                 | Polarity      | Notes
+---------- | ---------------------- | ------------- | -----
+IO2        | SW1 / Button I / C2DAT | active-low    |
+IO3        | SW2 *(unpopulated)*    | active-low    | Functions as extra garage door control.
+IO4        | SW4 / Button II        | active-low    |
+IO5        | SW3 / Button III       | active-low    |
+IO18       | SW5 / Program Button   | active-low    |
+IO19       | D1 / LED / C2CLK       | active-low    |
+IO23       | ESP32 Onboard LED      | active-high   |
+
+*All active-low IO above should be driven in an open-drain/active-low manner.
+The RF-MCU enables internal pull-ups on all IO, including the LED.*
+
