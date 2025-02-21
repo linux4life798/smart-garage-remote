@@ -47,6 +47,8 @@ ways.
    Otherwise, you can end up accidentally ripping traces/pads off the PCB.*
 
 **Connections:**
+![](images/wiring.svg)
+
 ESP32 Pin  |  Remote Test Point | Description            | Polarity      | Notes
 ---------- | -----------------  | ---------------------- | ------------- | -----
 V3         | Battery+           | 3.3V                   |               |
