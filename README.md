@@ -7,6 +7,8 @@ like in a temporary rental property, or maybe in situations where you don't
 have stable enough wifi or bluetooth in the garage (the Chamberlain remote has
 better range).
 
+![](images/flow-diagram.svg)
+
 ## The Chosen Remote
 
 ![](images/open-case.jpg)
