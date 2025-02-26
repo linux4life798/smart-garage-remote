@@ -49,24 +49,48 @@
 
 // C2 registers
 #define DEVICEID 0x00
+#define REVID 0x01
 #define FPCTL 0x02
 
+// - Note that sleep_us(1) has jitter of about 200ns.
+// - Note that using only internal pull-up takes about 12us for the signal to
+//   fully rise to the max (about 2.8V  with pull-up), once put into input mode.
+//   It takes about 5us to reach 1.65V.
+// - Doing back-to-back gpio set 1 and then set 0, without a sleep_us delay
+//   results in a very small almost sinusoidal signal at about 32MHz, IIRC.
+static const uint64_t PULLUP_RAISE_DELAY_US = 20;
+
 void c2_clock_pulse(void) {
+    gpio_set_pulls(SWD_CLK, true, false);
+    sleep_us(PULLUP_RAISE_DELAY_US);
+
     // C2CK low for 80ns-5μs
     gpio_put(SWD_CLK, 0);
+    gpio_set_dir(SWD_CLK, GPIO_OUT);
     sleep_us(1);
     // C2CK high for >120ns
     gpio_put(SWD_CLK, 1); 
     sleep_us(1);
+    gpio_set_dir(SWD_CLK, GPIO_IN);
 }
 
 void c2_reset(void) {
+    // Ensure C2D is seen as disabled.
+    gpio_set_dir(SWD_IO, GPIO_IN);
+    gpio_set_dir(SWD_CLK, GPIO_IN);
+    // Ensure the signal was high, before sending the low pulse.
+    gpio_set_pulls(SWD_CLK, true, false);
+    sleep_us(PULLUP_RAISE_DELAY_US);
+
     // Hold C2CK low for >20μs for reset
     gpio_put(SWD_CLK, 0);
+    gpio_set_dir(SWD_CLK, GPIO_OUT);
+    gpio_disable_pulls(SWD_CLK);
     sleep_us(25);
     // Return C2CK high
     gpio_put(SWD_CLK, 1);
-    sleep_us(2);
+    sleep_us(3);
+    gpio_set_dir(SWD_CLK, GPIO_IN);
 }
 
 void c2_write_addr(uint8_t addr) {
@@ -167,8 +191,8 @@ uint8_t c2_read_data(void) {
 }
 
 void c2_disable() {
-    gpio_disable_pulls(SWD_CLK);
-    gpio_disable_pulls(SWD_IO);
+    // gpio_disable_pulls(SWD_CLK);
+    // gpio_disable_pulls(SWD_IO);
     gpio_set_dir(SWD_CLK, false);
     gpio_set_dir(SWD_IO, false);
 }
@@ -180,7 +204,7 @@ enum pico_error_codes c2_init(void) {
     gpio_disable_pulls(SWD_CLK);
     gpio_disable_pulls(SWD_IO);
     
-    gpio_set_dir(SWD_CLK, true);
+    gpio_set_dir(SWD_CLK, false);
     gpio_set_dir(SWD_IO, false);
     gpio_put(SWD_CLK, true);
     
@@ -193,6 +217,7 @@ enum pico_error_codes c2_init(void) {
     // c2_write_data(0x04);
     // c2_write_data(0x01);
     // sleep_ms(20);
+    return PICO_OK;
 }
 
 /////////////
@@ -205,8 +230,8 @@ enum pico_error_codes faultier_init() {
     gpio_init(PIN_MUX1);
     gpio_init(PIN_MUX2);
     gpio_init(PIN_GATE);
-    gpio_init(SWD_CLK);
-    gpio_init(SWD_IO);
+    // gpio_init(SWD_CLK);
+    // gpio_init(SWD_IO);
     gpio_init(SWD_RST);
     
     gpio_set_dir(PIN_LED0, true);
@@ -244,11 +269,65 @@ void set_leds(uint8_t led_state) {
 void update_leds(void) {
     static uint8_t led_state = 0;
     set_leds(led_state);
-    sleep_ms(LED_DELAY_MS);
-    if ((led_state % 50) == 0) {
-        printf("Hello!\n");
-    }
+    // sleep_ms(LED_DELAY_MS);
+    // if ((led_state % 50) == 0) {
+    //     printf("Hello!\n");
+    // }
     led_state++;
+}
+
+void fundamentals_test() {
+    // gpio_set_dir(SWD_CLK, GPIO_OUT);
+    // gpio_set_dir(SWD_IO, GPIO_OUT);
+    // gpio_set_pulls(SWD_CLK, true, false);
+    // gpio_set_pulls(SWD_IO, true, false);
+    // gpio_set_dir(SWD_CLK, false);
+    // gpio_set_dir(SWD_IO, false);
+    // gpio_put(SWD_CLK, false);
+    // gpio_put(SWD_IO, false);
+
+    while(true) {
+        c2_reset();
+        c2_read_data();
+        // gpio_put(SWD_CLK, true);
+        // gpio_put(SWD_IO, true);
+        // gpio_set_dir(SWD_CLK, false);
+        sleep_ms(10);
+
+        // sleep_ns(50);
+        // gpio_put(SWD_IO, false);
+        // gpio_set_dir(SWD_CLK, true);
+        // gpio_put(SWD_CLK, false);
+        // sleep_us(100);
+        // sleep_ns(50);
+        // sleep_us(1000);
+        // gpio_put(SWD_CLK, false);
+        // sleep_us(1000);
+    }
+}
+
+void c2ddebug_test() {
+    // Reset device
+    c2_reset();
+    
+    // Read Device ID directly
+    uint8_t device_id = c2_read_data();
+
+    while(true) {
+        update_leds();
+        printf("First Device ID: 0x%02X\n", device_id);
+
+        // Reset device
+        c2_reset();
+        c2_write_addr(DEVICEID);
+        uint8_t new_device_id = c2_read_data();
+        c2_write_addr(REVID);
+        uint8_t new_rev_id = c2_read_data();
+        printf("New Device ID:   0x%02X\n", new_device_id);
+        printf("New Revision ID: 0x%02X\n", new_rev_id);
+        sleep_ms(500);
+        puts("");
+    }
 }
 
 
@@ -258,36 +337,6 @@ int main()
     hard_assert(faultier_init() == PICO_OK);
     stdio_init_all();
 
-    // Reset device
-    c2_reset();
-    
-    // Read Device ID directly
-    // c2_write_addr(DEVICEID);
-    uint8_t device_id = c2_read_data();
-    // printf("Device ID: 0x%02X\n", device_id);
-
-    // c2_disable();
-
-    while(true) {
-        printf("First Device ID: 0x%02X\n", device_id);
-
-        // Reset device
-        c2_reset();
-        c2_write_addr(DEVICEID);
-        printf("New Device ID: 0x%02X\n", c2_read_data());
-        sleep_ms(300);
-    }
-
-    // while (true) {
-    //     update_leds();
-    //     printf("SWD_CLK: %d\n", gpio_get(SWD_CLK));
-    //     printf("SWD_IO: %d\n", gpio_get(SWD_IO));
-    //     printf("gpio_is_pulled_up(SWD_CLK): %d\n", gpio_is_pulled_up(SWD_CLK));
-    //     printf("gpio_is_pulled_up(SWD_IO): %d\n", gpio_is_pulled_up(SWD_IO));
-    //     printf("gpio_is_pulled_down(SWD_CLK): %d\n", gpio_is_pulled_down(SWD_CLK));
-    //     printf("gpio_is_pulled_down(SWD_IO): %d\n", gpio_is_pulled_down(SWD_IO));
-    
-    //     sleep_ms(1000);
-    //     sleep_us(500);
-    // }
+    // fundamentals_test();
+    c2ddebug_test();
 }
