@@ -20,3 +20,10 @@
 
 [Datasheet]: https://www.silabs.com/documents/public/data-sheets/Si4010.pdf
 [Si4010-C2]: https://www.silabs.com/wireless/proprietary/ezradio-sub-ghz-ics/device.si4010-c2-gt?tab=specs
+
+
+C2 Debug Protocol Resources
+* All the bellow resources can be found at https://www.silabs.com/developer-tools/mcu-programming-options.
+* [AN124: Pin Sharing Techniques for the C2 Interface](https://www.silabs.com/documents/public/application-notes/AN124.pdf)
+* [AN127: FLASH Programming via the C2 Interface](https://www.silabs.com/documents/public/application-notes/AN124.pdf)
+* [Si4010 NVM Programming Utility User's Guide](https://www.silabs.com/documents/public/application-notes/AN511.pdf)
