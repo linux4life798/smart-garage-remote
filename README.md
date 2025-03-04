@@ -66,3 +66,6 @@ IO23       | N/A                | ESP32 Onboard LED      | active-high   |
 *All active-low IO above should be driven in an open-drain/active-low manner.
 The RF-MCU enables internal pull-ups on all IO, including the LED.*
 
+### ESPHome Setup
+
+* The ESPHome [device description yaml](garage-remote.yaml).
