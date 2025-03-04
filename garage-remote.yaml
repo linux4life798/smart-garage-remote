@@ -1,0 +1,194 @@
+esphome:
+  name: garage-remote
+  friendly_name: garage-remote
+
+esp32:
+  # board: sparkfun_esp32c6_thing_plus # 16MB
+  board: adafruit_feather_esp32c6 # 4MB
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "please-replace-with-something-valid"
+
+ota:
+  - platform: esphome
+    password: "please-replace-with-something-valid"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Garage-Remote Fallback Hotspot"
+    password: "please-replace-with-something-valid"
+
+captive_portal:
+
+# Example configuration entry
+output:
+  - platform: gpio
+    id: out_button_i
+    pin:
+      number: GPIO2
+      allow_other_uses: True
+      inverted: true
+      mode:
+        output: True
+        open_drain: True
+        input: True
+  - platform: gpio
+    id: out_button_extra
+    pin:
+      number: GPIO3
+      allow_other_uses: True
+      inverted: true
+      mode:
+        output: True
+        open_drain: True
+        input: True
+  - platform: gpio
+    id: out_button_ii
+    pin:
+      number: GPIO4
+      allow_other_uses: True
+      inverted: true
+      mode:
+        output: True
+        open_drain: True
+        input: True
+  - platform: gpio
+    id: out_button_iii
+    pin:
+      number: GPIO5
+      allow_other_uses: True
+      inverted: true
+      mode:
+        output: True
+        open_drain: True
+        input: True
+  - platform: gpio
+    id: out_button_program
+    pin:
+      number: GPIO18
+      allow_other_uses: True
+      inverted: true
+      mode:
+        output: True
+        open_drain: True
+        input: True
+
+button:
+  - platform: output
+    name: "Remote Button I"
+    id: button_i
+    output: out_button_i
+    duration: 100ms
+    icon: mdi:garage
+  - platform: output
+    name: "Remote Button II"
+    id: button_ii
+    output: out_button_ii
+    duration: 100ms
+    icon: mdi:garage
+  - platform: output
+    name: "Remote Button III"
+    id: button_iii
+    output: out_button_iii
+    duration: 100ms
+    icon: mdi:garage
+  - platform: output
+    name: "Remote Button Extra"
+    id: button_extra
+    output: out_button_extra
+    duration: 100ms
+    icon: mdi:garage
+  - platform: template
+    name: "Remote Button Program"
+    id: button_program
+    # output: out_button_program
+    # duration: 1000ms
+    icon: mdi:alpha-p-circle
+    on_press: 
+      then:
+        - output.turn_on: out_button_program
+        - logger.log: "Wait for LED to turn on."
+        - wait_until:
+            condition:
+              binary_sensor.is_on: status_led
+            timeout: 8s
+        - output.turn_off: out_button_program
+        - logger.log: "Ready to program"
+   
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO19
+      mode:
+        input: True
+        # pullup: True
+      # allow_other_uses: True
+      inverted: True
+    name: "Remote LED Status"
+    id: status_led
+    #icon: "mdi:led-on"
+    publish_initial_state: True
+
+  - platform: gpio
+    pin:
+      number: GPIO2
+      mode:
+        output: True
+        open_drain: True
+        input: True
+        # pullup: True
+      allow_other_uses: True
+      inverted: True
+    name: "Remote Button I Status"
+    # device_class: garage_door
+  - platform: gpio
+    pin:
+      number: GPIO3
+      mode:
+        output: True
+        open_drain: True
+        input: True
+      allow_other_uses: True
+      inverted: True
+    name: "Remote Button Extra Status"
+  - platform: gpio
+    pin:
+      number: GPIO4
+      mode:
+        output: True
+        open_drain: True
+        input: True
+      allow_other_uses: True
+      inverted: True
+    name: "Remote Button II Status"
+  - platform: gpio
+    pin:
+      number: GPIO5
+      mode:
+        output: True
+        open_drain: True
+        input: True
+      allow_other_uses: True
+      inverted: True
+    name: "Remote Button III Status"
+  - platform: gpio
+    pin:
+      number: GPIO18
+      mode:
+        output: True
+        open_drain: True
+        input: True
+      allow_other_uses: True
+      inverted: True
+    name: "Remote Button Program Status"
