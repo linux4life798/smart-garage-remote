@@ -1,0 +1,3 @@
+[submodule "rpi-pico/faultier"]
+	path = rpi-pico/faultier
+	url = git@github.com:hextreeio/faultier.git
