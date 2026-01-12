@@ -2,9 +2,13 @@ esphome:
   name: garage-remote
   friendly_name: Garage Remote
 
+# https://www.sparkfun.com/sparkfun-qwiic-pocket-development-board-esp32-c6.html
 esp32:
-  # board: sparkfun_esp32c6_thing_plus # 16MB
-  board: adafruit_feather_esp32c6 # 4MB
+  board: sparkfun_qwiic_pocket_esp32c6 # 4MB
+  # Optionally, you can describe using variant and explicit specs.
+  # variant: esp32c6
+  # flash_size: 4MB
+  # cpu_frequency: 160MHz
   framework:
     type: esp-idf
 
