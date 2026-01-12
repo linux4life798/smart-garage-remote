@@ -70,8 +70,18 @@ IO23       | N/A                | ESP32 Onboard LED      | active-high   |
 *All active-low IO above should be driven in an open-drain/active-low manner.
 The RF-MCU enables internal pull-ups on all IO, including the LED.*
 
-### ESPHome Setup
+### Firmware and ESPHome Setup
 
-* The ESPHome [device description yaml](garage-remote.yaml).
+The easiest way to set up and manage an ESPHome device is by using the
+**ESPHome Device Builder** add-on inside of *Home Assistant*.
+Check out https://esphome.io/guides/getting_started_hassio/ for help getting this set up.
+
+The **ESPHome Device Builder** takes in a YAML description, which includes
+information about the target MCU device and how to expose attached IO to
+Home Assistant. It then builds a targeted firmware image with the correct
+configuration baked in. Lastly, it helps you flash this image to the target
+MCU, usually over USB/serial.
+
+* The ESPHome YAML description I use is [device description YAML](garage-remote.yaml).
 * Here is the board definition that we need, but isn't currently supported:
 https://github.com/pioarduino/platform-espressif32/blob/53.03.13/boards/sparkfun_qwiic_pocket_esp32c6.json
