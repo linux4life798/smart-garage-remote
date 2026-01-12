@@ -85,3 +85,13 @@ MCU, usually over USB/serial.
 * The ESPHome YAML description I use is [device description YAML](garage-remote.yaml).
 * Here is the board definition that we need, but isn't currently supported:
 https://github.com/pioarduino/platform-espressif32/blob/53.03.13/boards/sparkfun_qwiic_pocket_esp32c6.json
+
+
+Additionally, I use a [Samsung SmartThings Multipurpose Sensor] attached
+to the garage door, so that I have real-time feedback on whether the door is
+open, closed, or currently moving. Since this garage was far away from my home,
+I also needed a [SONOFF Zigbee 3.0 USB Dongle Plus Gateway] to serve as a mesh
+range extender.
+
+[Samsung SmartThings Multipurpose Sensor]: https://www.samsung.com/us/smart-home/smartthings/sensors/samsung-smartthings-multipurpose-sensor-f-mlt-us-2/
+[SONOFF Zigbee 3.0 USB Dongle Plus Gateway]: https://a.co/d/76BaVvk
