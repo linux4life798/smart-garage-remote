@@ -120,7 +120,7 @@ button:
     # output: out_button_program
     # duration: 1000ms
     icon: mdi:alpha-p-circle
-    on_press: 
+    on_press:
       then:
         - output.turn_on: out_button_program
         - logger.log: "Wait for LED to turn on."
