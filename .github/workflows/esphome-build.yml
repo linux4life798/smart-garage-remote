@@ -28,6 +28,10 @@ jobs:
           wifi_password: "dummy-password"
           EOF
 
+      - name: Inject random placeholder credentials
+        run: |
+          sed -i "s/please-replace-with-something-valid/$(dd if=/dev/random bs=32 count=1 status=none | base64)/g" garage-remote.yaml
+
       - name: Build Firmware
         id: esphome-build
         uses: esphome/build-action@v7
