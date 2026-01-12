@@ -9,8 +9,6 @@ better range).
 
 ![](images/assembled-banner-esphome.png)
 
-## Diagram
-
 ![](images/flow-diagram.svg)
 
 ## The Chosen Remote
