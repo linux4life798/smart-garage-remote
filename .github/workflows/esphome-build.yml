@@ -37,3 +37,9 @@ jobs:
         uses: esphome/build-action@v7
         with:
           yaml-file: garage-remote.yaml
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: garage-remote
+          path: ${{ steps.esphome-build.outputs.name }}
