@@ -1,7 +1,7 @@
 # RPI-Pico
 
 This contains the code to use an RaspberryPi Pico on the [Faultier] glitch
-board to glitch and debu/program the Silicon Labs Si4010.
+board to glitch and debug/program the Silicon Labs Si4010.
 Note that the debug protocol on the Si4010 is called C2.
 
 Checkout the [REMOTE_TEARDOWN.md](/REMOTE_TEARDOWN.md) doc for more info.
