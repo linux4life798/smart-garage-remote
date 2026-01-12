@@ -73,3 +73,5 @@ The RF-MCU enables internal pull-ups on all IO, including the LED.*
 ### ESPHome Setup
 
 * The ESPHome [device description yaml](garage-remote.yaml).
+* Here is the board definition that we need, but isn't currently supported:
+https://github.com/pioarduino/platform-espressif32/blob/53.03.13/boards/sparkfun_qwiic_pocket_esp32c6.json
