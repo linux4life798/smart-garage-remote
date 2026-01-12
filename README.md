@@ -1,5 +1,7 @@
 # Smart Garage Door Opener Remote
 
+[![ESPHome Build](https://github.com/linux4life798/smart-garage-remote/actions/workflows/esphome-build.yml/badge.svg)](https://github.com/linux4life798/smart-garage-remote/actions/workflows/esphome-build.yml)
+
 This projects aims to add the "smarts" to the [Chamberlain 953EV-P2]
 garage door remote, for integration with Home Assistant. This is useful when
 you don't want to hardwire one of the amazing smart garage door controllers,
