@@ -1,0 +1,21 @@
+name: ESPHome Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - garage-remote.yaml
+      - .github/workflows/esphome-build.yml
+  pull_request:
+    paths:
+      - garage-remote.yaml
+      - .github/workflows/esphome-build.yml
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: esphome/workflows/.github/workflows/build.yml@main
+    with:
+      files: |
+        garage-remote.yaml
